@@ -31,7 +31,8 @@ GO
 SET ANSI_PADDING ON
 GO
 CREATE TABLE [dbo].[TBLSucursalDidi](
-	[LocalSAP] [varchar](4) NULL
+	[LocalSAP] [varchar](4) NOT NULL,
+    PRIMARY KEY(LocalSAP)
 )
 
 GO
