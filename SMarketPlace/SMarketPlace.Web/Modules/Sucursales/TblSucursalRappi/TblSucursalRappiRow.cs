@@ -8,8 +8,8 @@ namespace SMarketPlace.Sucursales;
 [LookupScript(Expiration = -1)]
 [ConnectionKey("Default"), Module("Sucursales"), TableName("TBLSucursalRappi")]
 [DisplayName("Tbl Sucursal Rappi"), InstanceName("Tbl Sucursal Rappi")]
-[ReadPermission("Administration:General")]
-[ModifyPermission("Administration:General")]
+[ReadPermission(PermissionKeys.Rappi)]
+[ModifyPermission(PermissionKeys.Rappi)]
 public sealed class TblSucursalRappiRow : Row<TblSucursalRappiRow.RowFields>, IIdRow, INameRow
 {
     [DisplayName("Local Sap"), Column("LocalSAP"), Size(4), IdProperty, QuickSearch, NameProperty, ForeignKey("[dbo].[tblSucursal]", "LocalSap"), LeftJoin("jSucursales"), TextualField("NombreSuc")]

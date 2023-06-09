@@ -8,8 +8,8 @@ namespace SMarketPlace.Productos;
 [LookupScript(Expiration = -1)]
 [ConnectionKey("Default"), Module("Productos"), TableName("tblArticulo")]
 [DisplayName("Tbl Articulo"), InstanceName("Tbl Articulo")]
-[ReadPermission("Administration:General")]
-[ModifyPermission("Administration:General")]
+[ReadPermission(PermissionKeys.Productos)]
+[ModifyPermission(PermissionKeys.Productos)]
 public sealed class TblArticuloRow : Row<TblArticuloRow.RowFields>, IIdRow, INameRow
 {
     [DisplayName("Sku"), Column("SKU"), PrimaryKey, NotNull, IdProperty]

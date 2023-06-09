@@ -15,10 +15,10 @@ export abstract class TblproductosRappiRow {
     static getLookup() { return getLookup<TblproductosRappiRow>('Productos.TblproductosRappi') }
     static async getLookupAsync() { return getLookupAsync<TblproductosRappiRow>('Productos.TblproductosRappi') }
 
-    static readonly deletePermission = 'Administration:General';
-    static readonly insertPermission = 'Administration:General';
-    static readonly readPermission = 'Administration:General';
-    static readonly updatePermission = 'Administration:General';
+    static readonly deletePermission = 'Productos:Rappi';
+    static readonly insertPermission = 'Productos:Rappi';
+    static readonly readPermission = 'Productos:Rappi';
+    static readonly updatePermission = 'Productos:Rappi';
 
     static readonly Fields = fieldsProxy<TblproductosRappiRow>();
 }

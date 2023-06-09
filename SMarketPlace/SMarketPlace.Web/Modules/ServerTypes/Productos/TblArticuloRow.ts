@@ -26,10 +26,10 @@ export abstract class TblArticuloRow {
     static getLookup() { return getLookup<TblArticuloRow>('Productos.TblArticulo') }
     static async getLookupAsync() { return getLookupAsync<TblArticuloRow>('Productos.TblArticulo') }
 
-    static readonly deletePermission = 'Administration:General';
-    static readonly insertPermission = 'Administration:General';
-    static readonly readPermission = 'Administration:General';
-    static readonly updatePermission = 'Administration:General';
+    static readonly deletePermission = 'Productos';
+    static readonly insertPermission = 'Productos';
+    static readonly readPermission = 'Productos';
+    static readonly updatePermission = 'Productos';
 
     static readonly Fields = fieldsProxy<TblArticuloRow>();
 }

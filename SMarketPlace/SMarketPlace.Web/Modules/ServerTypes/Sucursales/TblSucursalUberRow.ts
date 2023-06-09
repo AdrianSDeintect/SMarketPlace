@@ -15,10 +15,10 @@ export abstract class TblSucursalUberRow {
     static getLookup() { return getLookup<TblSucursalUberRow>('Sucursales.TblSucursalUber') }
     static async getLookupAsync() { return getLookupAsync<TblSucursalUberRow>('Sucursales.TblSucursalUber') }
 
-    static readonly deletePermission = 'Administration:General';
-    static readonly insertPermission = 'Administration:General';
-    static readonly readPermission = 'Administration:General';
-    static readonly updatePermission = 'Administration:General';
+    static readonly deletePermission = 'Sucursales:Uber';
+    static readonly insertPermission = 'Sucursales:Uber';
+    static readonly readPermission = 'Sucursales:Uber';
+    static readonly updatePermission = 'Sucursales:Uber';
 
     static readonly Fields = fieldsProxy<TblSucursalUberRow>();
 }
