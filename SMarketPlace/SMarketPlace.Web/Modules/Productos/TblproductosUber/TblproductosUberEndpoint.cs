@@ -12,6 +12,7 @@ using System.Data;
 using System.Globalization;
 using MyRow = SMarketPlace.Productos.TblproductosUberRow;
 using SMarketPlaceUtils;
+using System.Linq;
 
 namespace SMarketPlace.Productos.Endpoints;
 
@@ -68,6 +69,9 @@ public class TblproductosUberEndpoint : ServiceEndpoint
     [HttpPost]
     public ExcelImportResponse ExcelImport(IUnitOfWork uow, ExcelImportRequest request, [FromServices] IUploadStorage uploadStorage, [FromServices] TblproductosUberSaveHandler handler)
     {
+        List<int> lstExcel = new List<int>();
+        List<int> idsEliminados = new List<int>();
+        string StrConnectionAct = Convert.ToString(((Serenity.Data.WrappedConnection)((Serenity.Data.UnitOfWork)uow).Connection).ConnectionString);
         if (request == null) throw new ArgumentNullException(nameof(request));
         if (string.IsNullOrWhiteSpace(request.FileName)) throw new ArgumentNullException(nameof(request.FileName));
         if (uploadStorage is null) throw new ArgumentNullException(nameof(uploadStorage));
@@ -99,7 +103,10 @@ public class TblproductosUberEndpoint : ServiceEndpoint
         columnNameCol.Add(1);
         if (worksheet.Dimension.End.Row >= 2)
         {
-            ProcesosDB.ProcesoBarridoYLogProductos("tblproductosUber", "Uber", Convert.ToString(((Serenity.Data.WrappedConnection)((Serenity.Data.UnitOfWork)uow).Connection).ConnectionString));
+            ProcesosDB.ProcesoBarridoYLogProductos("tblproductosUber", "Uber", StrConnectionAct);
+            DataSet dsArtEli = ProcesosDB.GetArticulosEliminados("Uber", StrConnectionAct);
+            DataTable dtArtEli = dsArtEli.Tables[0];
+            idsEliminados = (from row in dtArtEli.AsEnumerable() select Convert.ToInt32(row["intArticuloid"])).ToList();
         }
         for (var row = 2; row <= worksheet.Dimension.End.Row; row++)
         {
@@ -108,6 +115,7 @@ public class TblproductosUberEndpoint : ServiceEndpoint
                 var Exits = true;
                 var lineIDCol = columnNameCol[0];
                 var pruductId = Convert.ToInt32(worksheet.Cells[row, lineIDCol].Value ?? "");
+                lstExcel.Add(pruductId);
                 var pName = Convert.ToString(pruductId);
 
                 if (pName.IsTrimmedEmpty())
@@ -131,12 +139,6 @@ public class TblproductosUberEndpoint : ServiceEndpoint
                     product.TrackWithChecks = false;
                 }
 
-                var cCol = columnNameCol[0]; //row on Excel Sheet with joined field;                    
-                var cID = TblproductosUberRow.Fields.IntArticuloid; //id on secondary table
-                                                                     //var cName = SupplierRow.Fields.CompanyName; //field being checked on secondary table
-                var catName = Convert.ToString(worksheet.Cells[row, cCol].Value ?? "");//value from Excel in specific column  where second table joins.
-                var mainID = product.IntArticuloid; //int designation on current row
-
                 if (Exits == false)
                 {
 
@@ -157,17 +159,19 @@ public class TblproductosUberEndpoint : ServiceEndpoint
 
                     response.Updated = response.Updated + 1;
                 }
-                cCol = 0;
-                cID = null;
-                catName = null;
-                mainID = null;
-
 
             }
             catch (Exception ex)
             {
                 response.ErrorList.Add("Exception on Row " + row + ": " + ex.Message);
             }
+        }
+
+        var diff = idsEliminados.Except(lstExcel);
+
+        foreach (var ids in diff)
+        {
+            ProcesosDB.LogBorradoArticulos(Convert.ToInt32(ids), "Uber", StrConnectionAct);
         }
 
         return response;
@@ -195,9 +199,8 @@ public class TblproductosUberEndpoint : ServiceEndpoint
     {
         request.Ids.ForEach(v =>
         {
+            ProcesosDB.LogBorradoArticulos(Convert.ToInt32(v), "Uber", Convert.ToString(((Serenity.Data.WrappedConnection)((Serenity.Data.UnitOfWork)uow).Connection).ConnectionString));
             handler.Delete(uow, new DeleteRequest() { EntityId = v });
-
-            //return handler.Delete(uow, request);
         });
 
         return new ServiceResponse();
