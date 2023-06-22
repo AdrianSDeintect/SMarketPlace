@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,7 +66,6 @@ namespace SMarketPlaceUtils
 
 		}
 
-
 		public static void ProcesoBarridoYLogSucursales(string tblName, string module, string StrConnection)
 		{
 			try
@@ -120,6 +120,62 @@ namespace SMarketPlaceUtils
 				return;
 			}
 
+		}
+
+		public static void LogBorradoArticulos(int intArticuloid, string module, string StrConnection)
+		{
+			string strQuery;
+			if (!string.IsNullOrEmpty(module))
+			{
+				if (module == "Didi")
+				{
+					strQuery = @" 
+							INSERT INTO [dbo].[LogProductosEliminado] (intArticuloid, tipoMP, iEliminado) 
+							SELECT ";
+					strQuery += intArticuloid.ToString() + ", 'Didi' , 0";
+					SMPSQL.ExecuteNonQuery(strQuery, StrConnection);
+				}
+				else if (module == "Rappi")
+				{
+					strQuery = @" 
+							INSERT INTO [dbo].[LogProductosEliminado] (intArticuloid, tipoMP, iEliminado) 
+							SELECT ";
+					strQuery += intArticuloid.ToString() + ", 'Rappi' , 0";
+					SMPSQL.ExecuteNonQuery(strQuery, StrConnection);
+				}
+				else if (module == "Uber")
+				{
+					strQuery = @" 
+							INSERT INTO [dbo].[LogProductosEliminado] (intArticuloid, tipoMP, iEliminado) 
+							SELECT ";
+					strQuery += intArticuloid.ToString() + ", 'Uber' , 0";
+					SMPSQL.ExecuteNonQuery(strQuery, StrConnection);
+				}
+
+			}
+		}
+
+		public static DataSet GetArticulosEliminados(string module, string StrConnection)
+		{
+			DataSet ds = new DataSet();
+			string strQuery;
+			if (!string.IsNullOrEmpty(module))
+			{
+				strQuery = @" 
+							select intArticuloid 
+							from [dbo].[LogProductosMP] 
+							where tipoMP = '";
+				strQuery += module.ToString() + "'";
+				strQuery += "and dtRegistro = (select max(dtRegistro) from [dbo].[LogProductosMP] where tipoMP = '";
+				strQuery += module.ToString() + "') ";
+				strQuery += "order by intArticuloid asc ";
+				ds = SMPSQL.ExecuteDataSet(strQuery, StrConnection);
+			}
+			else
+			{
+				ds = null;
+			}
+			return ds;
 		}
 	}
 }

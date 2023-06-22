@@ -20,10 +20,13 @@ export class TblSucursalRappiGrid extends EntityGrid<TblSucursalRappiRow, any> {
         this.rowSelection = new GridRowSelectionMixin(this);
     }
 
+    protected createToolbarExtensions() {
+        super.createToolbarExtensions();
+        this.rowSelection = new GridRowSelectionMixin(this);
+    }
 
-    protected getColumns(): Column[] {
-        let columns = super.getColumns();
-        /*        let extOptions = this.get_ExtGridOptions();*/
+    protected getColumns() {
+        var columns = super.getColumns();
         columns.splice(0, 0, GridRowSelectionMixin.createSelectColumn(() => this.rowSelection));
         return columns;
     }
@@ -50,6 +53,7 @@ export class TblSucursalRappiGrid extends EntityGrid<TblSucursalRappiRow, any> {
             icon: "fa-times text-red",
             onClick: () => {
                 let selectedKeys = this.rowSelection.getSelectedKeys();
+                this.rowSelection.resetCheckedAndRefresh();
                 if (selectedKeys != null && typeof selectedKeys != 'undefined' && selectedKeys.length > 0) {
                     Q.confirm(
                         "Confirma borrado de Sucursales ? ",

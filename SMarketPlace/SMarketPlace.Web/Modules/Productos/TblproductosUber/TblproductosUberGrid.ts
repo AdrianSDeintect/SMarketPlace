@@ -5,7 +5,6 @@ import { ImportExcelDialog } from 'Modules/ImportExcel/ImportExcelDialog'
 import { ExcelExportHelper, PdfExportHelper, ReportHelper } from "@serenity-is/extensions";
 import { Column } from '@serenity-is/sleekgrid';
 
-
 @Decorators.registerClass('SMarketPlace.Productos.TblproductosUberGrid')
 export class TblproductosUberGrid extends EntityGrid<TblproductosUberRow, any> {
 
@@ -21,9 +20,13 @@ export class TblproductosUberGrid extends EntityGrid<TblproductosUberRow, any> {
         this.rowSelection = new GridRowSelectionMixin(this);
     }
 
-    protected getColumns(): Column[] {
-        let columns = super.getColumns();
-        /*        let extOptions = this.get_ExtGridOptions();*/
+    protected createToolbarExtensions() {
+        super.createToolbarExtensions();
+        this.rowSelection = new GridRowSelectionMixin(this);
+    }
+
+    protected getColumns() {
+        var columns = super.getColumns();
         columns.splice(0, 0, GridRowSelectionMixin.createSelectColumn(() => this.rowSelection));
         return columns;
     }
@@ -50,6 +53,7 @@ export class TblproductosUberGrid extends EntityGrid<TblproductosUberRow, any> {
             icon: "fa-times text-red",
             onClick: () => {
                 let selectedKeys = this.rowSelection.getSelectedKeys();
+                this.rowSelection.resetCheckedAndRefresh();
                 if (selectedKeys != null && typeof selectedKeys != 'undefined' && selectedKeys.length > 0) {
                     Q.confirm(
                         "Confirma borrado de Productos ? ",

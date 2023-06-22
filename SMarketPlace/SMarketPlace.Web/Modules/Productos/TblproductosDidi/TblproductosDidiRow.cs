@@ -8,8 +8,8 @@ namespace SMarketPlace.Productos;
 [LookupScript(Expiration = -1)]
 [ConnectionKey("Default"), Module("Productos"), TableName("tblproductosDidi")]
 [DisplayName("Productos Didi"), InstanceName("Productos Didi")]
-[ReadPermission("Administration:General")]
-[ModifyPermission("Administration:General")]
+[ReadPermission(PermissionKeys.Didi)]
+[ModifyPermission(PermissionKeys.Didi)]
 public sealed class TblproductosDidiRow : Row<TblproductosDidiRow.RowFields>, IIdRow, INameRow
 {
     [DisplayName("Articulo"), Column("intArticuloid"), PrimaryKey, IdProperty, QuickSearch, ForeignKey("[dbo].[tblArticulo]", "SKU"), LeftJoin("jArticulo"), TextualField("NOMBREARTICULO"), NameProperty]

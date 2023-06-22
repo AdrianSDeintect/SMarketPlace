@@ -20,18 +20,16 @@ export class TblproductosRappiGrid extends EntityGrid<TblproductosRappiRow, any>
         this.rowSelection = new GridRowSelectionMixin(this);
     }
 
-//    protected createToolbarExtensions() {
-//        super.createToolbarExtensions();
-      
-//    }
+    protected createToolbarExtensions() {
+        super.createToolbarExtensions();
+        this.rowSelection = new GridRowSelectionMixin(this);
+    }
 
-    protected getColumns(): Column[] {
-        let columns = super.getColumns();
-/*        let extOptions = this.get_ExtGridOptions();*/
+    protected getColumns() {
+        var columns = super.getColumns();
         columns.splice(0, 0, GridRowSelectionMixin.createSelectColumn(() => this.rowSelection));
         return columns;
     }
-
 
     protected getButtons(): ToolButton[] {
         var buttons = super.getButtons();
@@ -55,11 +53,14 @@ export class TblproductosRappiGrid extends EntityGrid<TblproductosRappiRow, any>
             icon: "fa-times text-red",
             onClick: () => {
                 let selectedKeys = this.rowSelection.getSelectedKeys();
+                this.rowSelection.resetCheckedAndRefresh();
                 if (selectedKeys != null && typeof selectedKeys != 'undefined' && selectedKeys.length > 0) {
                     Q.confirm(
                         "Confirma borrado de Productos ? ",
                         () => {
                             TblproductosRappiService.DeleteMulti({ Ids: selectedKeys }, res => {
+
+
                                 Q.notifySuccess("Productos Eliminados");
                                 this.refresh();
                             });
