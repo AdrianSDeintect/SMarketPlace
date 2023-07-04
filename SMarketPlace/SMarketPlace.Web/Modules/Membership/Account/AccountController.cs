@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Serenity;
@@ -6,6 +6,7 @@ using Serenity.Abstractions;
 using Serenity.Services;
 using SMarketPlace.Administration;
 using System;
+using BenavFabeAD.Security;
 
 namespace SMarketPlace.Membership.Pages
 {
@@ -65,10 +66,21 @@ namespace SMarketPlace.Membership.Pages
                 var result = passwordValidator.Validate(ref username, request.Password);
                 if (result == PasswordValidationResult.Valid)
                 {
-
-                    var principal = UserRetrieveService.CreatePrincipal(userRetriever, username, authType: "Password");
-                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal).GetAwaiter().GetResult();
-                    return new ServiceResponse();
+                    bool ValidateUserAD = LoginAuthenticator().IsUserLockedOut(username);
+                    if (ValidateUserAD == false)
+                    {
+                        bool ValidateAuthAD = LoginAuthenticator().ValidateCredentials(username, request.Password);
+                        if (ValidateAuthAD == true)
+                        {
+                            var principal = UserRetrieveService.CreatePrincipal(userRetriever, username, authType: "Password");
+                            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal).GetAwaiter().GetResult();
+                            return new ServiceResponse();
+                        }
+                        else { throw new ValidationError("AuthenticationError", "Error de credenciales de ActiveDirectory"); }
+                    }
+                    else { 
+                        throw new ValidationError("AuthenticationError", "Usuario bloqueado consulte al administrador");
+                    }
                 }
 
                 throw new ValidationError("AuthenticationError", Texts.Validation.AuthenticationError.ToString(Localizer));
@@ -89,6 +101,12 @@ namespace SMarketPlace.Membership.Pages
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return new RedirectResult("~/");
+        }
+
+        public Authenticator LoginAuthenticator()
+        {
+            Authenticator auth = new Authenticator("corporativo.benavides.com.mx", "Sistemaprecios", "Farmacia1");
+            return auth;
         }
     }
 }
