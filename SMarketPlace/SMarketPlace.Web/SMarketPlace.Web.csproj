@@ -53,9 +53,16 @@
     <PackageReference Include="Serenity.Net.Web" Version="6.7.1" />
     <PackageReference Include="Serenity.Extensions" Version="6.7.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="7.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SMarketPlaceUtils\SMarketPlaceUtils.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FabeAD.Security">
+      <HintPath>..\..\..\FabeAD.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <Target Name="NpmInstall" BeforeTargets="BeforeBuild" Condition="!Exists('node_modules\@types\jquery\index.d.ts')">
     <Message Text="Installing NPM packages..." Importance="high" />

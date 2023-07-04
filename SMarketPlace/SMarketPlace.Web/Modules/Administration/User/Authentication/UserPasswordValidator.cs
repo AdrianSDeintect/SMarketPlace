@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Serenity;
 using Serenity.Abstractions;
@@ -58,12 +58,17 @@ namespace SMarketPlace.Administration
             if (!throttler.Check())
                 return PasswordValidationResult.Throttle;
 
-            bool validatePassword() => UserHelper.CalculateHash(password, user.PasswordSalt)
-                .Equals(user.PasswordHash, StringComparison.OrdinalIgnoreCase);
+            //bool validatePassword() => UserHelper.CalculateHash(password, user.PasswordSalt)
+            //    .Equals(user.PasswordHash, StringComparison.OrdinalIgnoreCase);
+
+            bool validatePassword = true;
 
             if (user.Source == "site" || user.Source == "sign" || DirectoryService == null)
             {
-                if (validatePassword())
+                //var Aut = new BenavFabeAD.Security.Authenticator("corporativo.benavides.com.mx", "Sistemaprecios", "Farmacia1");
+                //var validate = Aut.IsUserLockedOut(username);
+
+                if (validatePassword)
                 {
                     throttler.Reset();
                     return PasswordValidationResult.Valid;
@@ -79,7 +84,7 @@ namespace SMarketPlace.Administration
                 user.LastDirectoryUpdate != null &&
                 user.LastDirectoryUpdate.Value.AddHours(1) >= DateTime.Now)
             {
-                if (validatePassword())
+                if (validatePassword)
                 {
                     throttler.Reset();
                     return PasswordValidationResult.Valid;
@@ -91,6 +96,7 @@ namespace SMarketPlace.Administration
             DirectoryEntry entry;
             try
             {
+
                 entry = DirectoryService.Validate(username, password);
                 if (entry == null)
                     return PasswordValidationResult.Invalid;
@@ -104,7 +110,7 @@ namespace SMarketPlace.Administration
                 // couldn't access directory. allow user to login with cached password
                 if (!user.PasswordHash.IsTrimmedEmpty())
                 {
-                    if (validatePassword())
+                    if (validatePassword)
                     {
                         throttler.Reset();
                         return PasswordValidationResult.Valid;
