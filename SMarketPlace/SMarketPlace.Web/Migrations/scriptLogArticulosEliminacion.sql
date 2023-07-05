@@ -1,6 +1,3 @@
-USE [SMP]
-GO
-
 /****** Object:  Table [dbo].[LogProductosMP]    Script Date: 6/19/2023 4:48:15 PM ******/
 SET ANSI_NULLS ON
 GO
