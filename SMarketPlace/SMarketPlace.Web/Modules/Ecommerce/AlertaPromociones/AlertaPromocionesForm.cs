@@ -1,23 +1,12 @@
-using Serenity.ComponentModel;
-using System.ComponentModel;
+﻿using Serenity.ComponentModel;
 
-namespace SMarketPlace.Ecommerce.Columns;
+namespace SMarketPlace.Ecommerce.Forms;
 
-[ColumnsScript("Ecommerce.Promociones")]
-[BasedOnRow(typeof(PromocionesRow), CheckNames = true)]
-public class PromocionesColumns
+[FormScript("Ecommerce.AlertaPromociones")]
+[BasedOnRow(typeof(AlertaPromocionesRow), CheckNames = true)]
+public class AlertaPromocionesForm
 {
-    [EditLink, DisplayName("Db.Shared.RecordId"), AlignRight]
-    public int Id { get; set; }
-    [EditLink]
-    public string IdOrder { get; set; }
-
-    [QuickFilter]
-    [DisplayName("Promoid")]
     public string IdPromocion { get; set; }
-
-    [QuickFilter]
-    [DisplayName("Codigo")]
     public string MapCod { get; set; }
     public string NroLocal { get; set; }
     public string Mecanica { get; set; }

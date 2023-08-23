@@ -1,4 +1,4 @@
-﻿using Serenity.ComponentModel;
+using Serenity.ComponentModel;
 using Serenity.Data;
 using Serenity.Data.Mapping;
 using System.ComponentModel;
@@ -7,8 +7,8 @@ namespace SMarketPlace.JobMP;
 
 [ConnectionKey("Default"), Module("JobMP"), TableName("FABEMPSUCURSAL")]
 [DisplayName("Asigna Sucursal"), InstanceName("Asigna Sucursal")]
-[ReadPermission("Administration:General")]
-[ModifyPermission("Administration:General")]
+[ReadPermission(PermissionKeys.AsignaSucursal)]
+[ModifyPermission(PermissionKeys.AsignaSucursal)]
 public sealed class AsignaSucursalRow : Row<AsignaSucursalRow.RowFields>, IIdRow
 {
     const string jIdSucursal = nameof(jIdSucursal);

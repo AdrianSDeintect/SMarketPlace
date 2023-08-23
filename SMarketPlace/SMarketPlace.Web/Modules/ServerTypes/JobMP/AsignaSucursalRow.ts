@@ -10,10 +10,10 @@ export interface AsignaSucursalRow {
 export abstract class AsignaSucursalRow {
     static readonly idProperty = 'IdSucurasalMp';
     static readonly localTextPrefix = 'JobMP.AsignaSucursal';
-    static readonly deletePermission = 'Administration:General';
-    static readonly insertPermission = 'Administration:General';
-    static readonly readPermission = 'Administration:General';
-    static readonly updatePermission = 'Administration:General';
+    static readonly deletePermission = 'MP.AsignaSucursal';
+    static readonly insertPermission = 'MP.AsignaSucursal';
+    static readonly readPermission = 'MP.AsignaSucursal';
+    static readonly updatePermission = 'MP.AsignaSucursal';
 
     static readonly Fields = fieldsProxy<AsignaSucursalRow>();
 }

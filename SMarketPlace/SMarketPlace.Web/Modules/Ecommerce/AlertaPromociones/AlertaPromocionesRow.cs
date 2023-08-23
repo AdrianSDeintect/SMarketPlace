@@ -5,11 +5,11 @@ using System.ComponentModel;
 
 namespace SMarketPlace.Ecommerce;
 
-[ConnectionKey("Default"), Module("Ecommerce"), TableName("PROMOCIONESC2SSMP")]
-[DisplayName("Promociones"), InstanceName("Promociones")]
+[ConnectionKey("Default"), Module("Ecommerce"), TableName("PROMOCIONESALERTA")]
+[DisplayName("Alerta Promociones"), InstanceName("Alerta Promociones")]
 [ReadPermission("Administration:General")]
 [ModifyPermission("Administration:General")]
-public sealed class PromocionesRow : Row<PromocionesRow.RowFields>, IIdRow, INameRow
+public sealed class AlertaPromocionesRow : Row<AlertaPromocionesRow.RowFields>, IIdRow, INameRow
 {
     [DisplayName("Id"), Column("id"), Identity, IdProperty]
     public int? Id
@@ -18,14 +18,7 @@ public sealed class PromocionesRow : Row<PromocionesRow.RowFields>, IIdRow, INam
         set => fields.Id[this] = value;
     }
 
-    [DisplayName("Id Order"), Column("ID_ORDER"), Size(500), QuickSearch, NameProperty]
-    public string IdOrder
-    {
-        get => fields.IdOrder[this];
-        set => fields.IdOrder[this] = value;
-    }
-
-    [DisplayName("Id Promocion"), Column("ID_PROMOCION"), Size(500), QuickSearch]
+    [DisplayName("Id Promocion"), Column("ID_PROMOCION"), Size(500), QuickSearch, NameProperty]
     public string IdPromocion
     {
         get => fields.IdPromocion[this];
@@ -39,7 +32,7 @@ public sealed class PromocionesRow : Row<PromocionesRow.RowFields>, IIdRow, INam
         set => fields.MapCod[this] = value;
     }
 
-    [DisplayName("Nro Local"), Column("NRO_LOCAL"), Size(500)]
+    [DisplayName("Nro Local"), Column("NRO_LOCAL"), Size(500), QuickSearch]
     public string NroLocal
     {
         get => fields.NroLocal[this];
@@ -95,7 +88,7 @@ public sealed class PromocionesRow : Row<PromocionesRow.RowFields>, IIdRow, INam
         set => fields.FinVigencia[this] = value;
     }
 
-    [DisplayName("Mostrar Precio Rebajado"), Column("MOSTRAR_PRECIO_REBAJADO"), Size(500)]
+    [DisplayName("Mostrar Precio Rebajado"), Column("MOSTRAR_PRECIO_REBAJADO"), Size(500), QuickSearch]
     public string MostrarPrecioRebajado
     {
         get => fields.MostrarPrecioRebajado[this];
@@ -109,7 +102,7 @@ public sealed class PromocionesRow : Row<PromocionesRow.RowFields>, IIdRow, INam
         set => fields.Alcanceas[this] = value;
     }
 
-    [DisplayName("Zona Visualizacion"), Column("ZONA_VISUALIZACION"), Size(500)]
+    [DisplayName("Zona Visualizacion"), Column("ZONA_VISUALIZACION"), Size(500), QuickSearch]
     public string ZonaVisualizacion
     {
         get => fields.ZonaVisualizacion[this];
@@ -147,7 +140,6 @@ public sealed class PromocionesRow : Row<PromocionesRow.RowFields>, IIdRow, INam
     public class RowFields : RowFieldsBase
     {
         public Int32Field Id;
-        public StringField IdOrder;
         public StringField IdPromocion;
         public StringField MapCod;
         public StringField NroLocal;

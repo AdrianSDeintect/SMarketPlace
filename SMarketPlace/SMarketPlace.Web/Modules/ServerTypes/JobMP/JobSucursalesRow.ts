@@ -18,10 +18,10 @@ export abstract class JobSucursalesRow {
     static readonly idProperty = 'IdMp';
     static readonly nameProperty = 'NombreMp';
     static readonly localTextPrefix = 'JobMP.JobSucursales';
-    static readonly deletePermission = 'Administration:General';
-    static readonly insertPermission = 'Administration:General';
-    static readonly readPermission = 'Administration:General';
-    static readonly updatePermission = 'Administration:General';
+    static readonly deletePermission = 'MP:JobSucursales';
+    static readonly insertPermission = 'MP:JobSucursales';
+    static readonly readPermission = 'MP:JobSucursales';
+    static readonly updatePermission = 'MP:JobSucursales';
 
     static readonly Fields = fieldsProxy<JobSucursalesRow>();
 }

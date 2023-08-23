@@ -3,19 +3,17 @@ using System.ComponentModel;
 
 namespace SMarketPlace.Ecommerce.Columns;
 
-[ColumnsScript("Ecommerce.Promociones")]
-[BasedOnRow(typeof(PromocionesRow), CheckNames = true)]
-public class PromocionesColumns
+[ColumnsScript("Ecommerce.AlertaPromociones")]
+[BasedOnRow(typeof(AlertaPromocionesRow), CheckNames = true)]
+public class AlertaPromocionesColumns
 {
+
+    
     [EditLink, DisplayName("Db.Shared.RecordId"), AlignRight]
     public int Id { get; set; }
-    [EditLink]
-    public string IdOrder { get; set; }
-
     [QuickFilter]
-    [DisplayName("Promoid")]
+    [DisplayName("IdPromocion")]
     public string IdPromocion { get; set; }
-
     [QuickFilter]
     [DisplayName("Codigo")]
     public string MapCod { get; set; }

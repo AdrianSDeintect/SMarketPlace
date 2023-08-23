@@ -1,4 +1,4 @@
-﻿using Serenity.ComponentModel;
+using Serenity.ComponentModel;
 using Serenity.Data;
 using Serenity.Data.Mapping;
 using System;
@@ -8,8 +8,8 @@ namespace SMarketPlace.JobMP;
 
 [ConnectionKey("Default"), Module("JobMP"), TableName("tblIntegrador")]
 [DisplayName("Market Place"), InstanceName("Market Place")]
-[ReadPermission("Administration:General")]
-[ModifyPermission("Administration:General")]
+[ReadPermission(PermissionKeys.MarketPlace)]
+[ModifyPermission(PermissionKeys.MarketPlace)]
 public sealed class MarketPlaceRow : Row<MarketPlaceRow.RowFields>, IIdRow, INameRow
 {
     [DisplayName("Idintegrador"), Column("idintegrador"), Identity, IdProperty]

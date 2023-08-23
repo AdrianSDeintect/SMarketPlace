@@ -13,10 +13,10 @@ export abstract class MarketPlaceRow {
     static readonly idProperty = 'Idintegrador';
     static readonly nameProperty = 'Nombre';
     static readonly localTextPrefix = 'JobMP.MarketPlace';
-    static readonly deletePermission = 'Administration:General';
-    static readonly insertPermission = 'Administration:General';
-    static readonly readPermission = 'Administration:General';
-    static readonly updatePermission = 'Administration:General';
+    static readonly deletePermission = 'MP:MarketPlace';
+    static readonly insertPermission = 'MP:MarketPlace';
+    static readonly readPermission = 'MP:MarketPlace';
+    static readonly updatePermission = 'MP:MarketPlace';
 
     static readonly Fields = fieldsProxy<MarketPlaceRow>();
 }

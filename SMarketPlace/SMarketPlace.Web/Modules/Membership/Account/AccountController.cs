@@ -65,6 +65,7 @@ namespace SMarketPlace.Membership.Pages
                 var username = request.Username;
                 var result = passwordValidator.Validate(ref username, request.Password);
                 if (result == PasswordValidationResult.Valid)
+
                 {
                     bool ValidateUserAD = LoginAuthenticator().IsUserLockedOut(username);
                     if (ValidateUserAD == false)
