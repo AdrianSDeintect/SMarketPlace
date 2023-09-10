@@ -1,8 +1,8 @@
-﻿import { StringEditor, DateEditor, PrefixedContext } from "@serenity-is/corelib";
+﻿import { LookupEditor, StringEditor, DateEditor, PrefixedContext } from "@serenity-is/corelib";
 import { initFormType } from "@serenity-is/corelib/q";
 
 export interface ActualizarPedidoForm {
-    IdPedidoEcommerce: StringEditor;
+    IdPedidoEcommerce: LookupEditor;
     EstadoPedidoInternet: StringEditor;
     Estado: StringEditor;
     DtRegistroUsr: DateEditor;
@@ -19,15 +19,16 @@ export class ActualizarPedidoForm extends PrefixedContext {
         if (!ActualizarPedidoForm.init)  {
             ActualizarPedidoForm.init = true;
 
-            var w0 = StringEditor;
-            var w1 = DateEditor;
+            var w0 = LookupEditor;
+            var w1 = StringEditor;
+            var w2 = DateEditor;
 
             initFormType(ActualizarPedidoForm, [
                 'IdPedidoEcommerce', w0,
-                'EstadoPedidoInternet', w0,
-                'Estado', w0,
-                'DtRegistroUsr', w1,
-                'DtCambio', w1
+                'EstadoPedidoInternet', w1,
+                'Estado', w1,
+                'DtRegistroUsr', w2,
+                'DtCambio', w2
             ]);
         }
     }

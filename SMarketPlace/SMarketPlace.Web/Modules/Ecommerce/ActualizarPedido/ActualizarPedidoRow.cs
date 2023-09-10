@@ -1,6 +1,7 @@
 using Serenity.ComponentModel;
 using Serenity.Data;
 using Serenity.Data.Mapping;
+using SMarketPlace.Productos;
 using System;
 using System.ComponentModel;
 
@@ -19,6 +20,8 @@ public sealed class ActualizarPedidoRow : Row<ActualizarPedidoRow.RowFields>, II
         set => fields.Intid[this] = value;
     }
 
+    [EditLink]
+    [LookupEditor(typeof(OrdenesEcommerceRow))]
     [DisplayName("Id Pedido Ecommerce"), Column("idPedidoEcommerce"), Size(10), NotNull, QuickSearch, NameProperty]
     public string IdPedidoEcommerce
     {

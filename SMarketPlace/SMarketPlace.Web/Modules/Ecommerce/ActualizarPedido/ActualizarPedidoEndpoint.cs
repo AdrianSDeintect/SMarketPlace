@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Serenity.Data;
 using Serenity.Reporting;
 using Serenity.Services;
@@ -18,6 +18,12 @@ public class ActualizarPedidoEndpoint : ServiceEndpoint
     public SaveResponse Create(IUnitOfWork uow, SaveRequest<MyRow> request,
         [FromServices] IActualizarPedidoSaveHandler handler)
     {
+
+
+     //   request.Entity.EstadoPedidoInternet
+
+
+
         return handler.Create(uow, request);
     }
 
