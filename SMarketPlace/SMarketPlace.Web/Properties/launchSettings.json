@@ -6,7 +6,9 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:65020;http://localhost:65021"
+      "applicationUrl": "https://localhost:65020;http://localhost:65021",
+      "nativeDebugging": true,
+      "sqlDebugging": true
     }
   }
 }

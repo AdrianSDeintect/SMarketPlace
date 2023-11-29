@@ -104,8 +104,8 @@ public class TblproductosRappiEndpoint : ServiceEndpoint
  
         columnNameCol.Add(1);
         if (worksheet.Dimension.End.Row >= 2) {
-            ProcesosDB.ProcesoBarridoYLogProductos("tblproductosRappi", "Rappi", StrConnectionAct);
-            DataSet dsArtEli = ProcesosDB.GetArticulosEliminados("Rappi", StrConnectionAct);
+            ProcesosDB.ProcesoBarridoYLogProductos("tblproductosRappi", "Rappi");
+            DataSet dsArtEli = ProcesosDB.GetArticulosEliminados("Rappi");
             DataTable dtArtEli = dsArtEli.Tables[0];
             idsEliminados = (from row in dtArtEli.AsEnumerable() select Convert.ToInt32(row["intArticuloid"])).ToList();
         }
@@ -173,7 +173,7 @@ public class TblproductosRappiEndpoint : ServiceEndpoint
 
         foreach (var ids in diff)
         {
-            ProcesosDB.LogBorradoArticulos(Convert.ToInt32(ids), "Rappi", StrConnectionAct);
+            ProcesosDB.LogBorradoArticulos(Convert.ToInt32(ids), "Rappi");
         }
 
         return response;
@@ -201,7 +201,7 @@ public class TblproductosRappiEndpoint : ServiceEndpoint
     {
         request.Ids.ForEach(v =>
         {
-            ProcesosDB.LogBorradoArticulos(Convert.ToInt32(v), "Rappi", Convert.ToString(((Serenity.Data.WrappedConnection)((Serenity.Data.UnitOfWork)uow).Connection).ConnectionString));
+            ProcesosDB.LogBorradoArticulos(Convert.ToInt32(v), "Rappi");
             handler.Delete(uow, new DeleteRequest() { EntityId = v });
         });
 

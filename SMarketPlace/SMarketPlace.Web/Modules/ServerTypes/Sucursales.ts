@@ -1,5 +1,6 @@
 ﻿export * from "./Sucursales/DeleteMultiRequest"
 export * from "./Sucursales/DeleteMultiRequest"
+export * from "./Sucursales/DeleteMultiRequest"
 export * from "./Sucursales/PermissionKeys"
 export * from "./Sucursales/TblSucursalColumns"
 export * from "./Sucursales/TblSucursalDidiColumns"

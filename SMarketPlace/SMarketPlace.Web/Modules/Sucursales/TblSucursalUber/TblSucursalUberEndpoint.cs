@@ -99,7 +99,7 @@ public class TblSucursalUberEndpoint : ServiceEndpoint
         columnNameCol.Add(1);
         if (worksheet.Dimension.End.Row >= 2)
         {
-            ProcesosDB.ProcesoBarridoYLogSucursales("TBLSucursalUber", "Uber", Convert.ToString(((Serenity.Data.WrappedConnection)((Serenity.Data.UnitOfWork)uow).Connection).ConnectionString));
+            ProcesosDB.ProcesoBarridoYLogSucursales("TBLSucursalUber", "Uber");
         }
         for (var row = 2; row <= worksheet.Dimension.End.Row; row++)
         {

@@ -11,7 +11,7 @@ namespace SMarketPlaceUtils
 {
 	public class ProcesosDB
 	{
-		public static void ProcesoBarridoYLogProductos(string tblName, string module, string StrConnection)
+		public static void ProcesoBarridoYLogProductos(string tblName, string module)
 		{
 			try
 			{
@@ -26,7 +26,7 @@ namespace SMarketPlaceUtils
 							INSERT INTO [dbo].[LogProductosMP] (intArticuloid, tipoMP)
 							SELECT intArticuloid, 'Didi' 
 							FROM [dbo].[tblproductosDidi] ";
-						SMPSQL.ExecuteNonQuery(strQuery, StrConnection);						
+						SMPSQL.ExecuteNonQuery(strQuery);						
 					}
 					else if (module == "Rappi")
 					{
@@ -34,7 +34,7 @@ namespace SMarketPlaceUtils
 							INSERT INTO [dbo].[LogProductosMP] (intArticuloid, tipoMP)
 							SELECT intArticuloid, 'Rappi' 
 							FROM [dbo].[tblproductosRappi] ";
-						SMPSQL.ExecuteNonQuery(strQuery, StrConnection);
+						SMPSQL.ExecuteNonQuery(strQuery);
 					}
 					else if (module == "Uber")
 					{
@@ -42,13 +42,13 @@ namespace SMarketPlaceUtils
 							INSERT INTO [dbo].[LogProductosMP] (intArticuloid, tipoMP)
 							SELECT intArticuloid, 'Uber' 
 							FROM [dbo].[tblproductosUber] ";
-						SMPSQL.ExecuteNonQuery(strQuery, StrConnection);
+						SMPSQL.ExecuteNonQuery(strQuery);
 					}
 
 					//Borrado de la tabla Articulos
 					try
 					{
-						SMPSQL.ExecuteNonQuery(strQueryDeleteTbl, StrConnection);
+						SMPSQL.ExecuteNonQuery(strQueryDeleteTbl);
 					}
 					catch (Exception e)
 					{
@@ -66,7 +66,7 @@ namespace SMarketPlaceUtils
 
 		}
 
-		public static void ProcesoBarridoYLogSucursales(string tblName, string module, string StrConnection)
+		public static void ProcesoBarridoYLogSucursales(string tblName, string module)
 		{
 			try
 			{
@@ -82,7 +82,7 @@ namespace SMarketPlaceUtils
 							SELECT LocalSAP, 'Didi' 
 							FROM [dbo].[TBLSucursalDidi] ";
 
-						SMPSQL.ExecuteNonQuery(strQuery, StrConnection);
+						SMPSQL.ExecuteNonQuery(strQuery);
 					}
 					else if (module == "Rappi")
 					{
@@ -90,7 +90,7 @@ namespace SMarketPlaceUtils
 							INSERT INTO [dbo].[LogSucursalesMP] (LocalSAP, tipoMP)
 							SELECT LocalSAP, 'Rappi' 
 							FROM [dbo].[TBLSucursalRappi] ";
-						SMPSQL.ExecuteNonQuery(strQuery, StrConnection);
+						SMPSQL.ExecuteNonQuery(strQuery);
 					}
 					else if (module == "Uber")
 					{
@@ -98,13 +98,13 @@ namespace SMarketPlaceUtils
 							INSERT INTO [dbo].[LogSucursalesMP] (LocalSAP, tipoMP)
 							SELECT LocalSAP, 'Uber' 
 							FROM [dbo].[TBLSucursalUber] ";
-						SMPSQL.ExecuteNonQuery(strQuery, StrConnection);
+						SMPSQL.ExecuteNonQuery(strQuery);
 					}
 
 					//Borrado de la tabla Articulos
 					try
 					{
-						SMPSQL.ExecuteNonQuery(strQueryDeleteTbl, StrConnection);
+						SMPSQL.ExecuteNonQuery(strQueryDeleteTbl);
 					}
 					catch (Exception e)
 					{
@@ -122,7 +122,7 @@ namespace SMarketPlaceUtils
 
 		}
 
-		public static void LogBorradoArticulos(int intArticuloid, string module, string StrConnection)
+		public static void LogBorradoArticulos(int intArticuloid, string module)
 		{
 			string strQuery;
 			if (!string.IsNullOrEmpty(module))
@@ -133,7 +133,7 @@ namespace SMarketPlaceUtils
 							INSERT INTO [dbo].[LogProductosEliminado] (intArticuloid, tipoMP, iEliminado) 
 							SELECT ";
 					strQuery += intArticuloid.ToString() + ", 'Didi' , 0";
-					SMPSQL.ExecuteNonQuery(strQuery, StrConnection);
+					SMPSQL.ExecuteNonQuery(strQuery);
 				}
 				else if (module == "Rappi")
 				{
@@ -141,7 +141,7 @@ namespace SMarketPlaceUtils
 							INSERT INTO [dbo].[LogProductosEliminado] (intArticuloid, tipoMP, iEliminado) 
 							SELECT ";
 					strQuery += intArticuloid.ToString() + ", 'Rappi' , 0";
-					SMPSQL.ExecuteNonQuery(strQuery, StrConnection);
+					SMPSQL.ExecuteNonQuery(strQuery);
 				}
 				else if (module == "Uber")
 				{
@@ -149,13 +149,13 @@ namespace SMarketPlaceUtils
 							INSERT INTO [dbo].[LogProductosEliminado] (intArticuloid, tipoMP, iEliminado) 
 							SELECT ";
 					strQuery += intArticuloid.ToString() + ", 'Uber' , 0";
-					SMPSQL.ExecuteNonQuery(strQuery, StrConnection);
+					SMPSQL.ExecuteNonQuery(strQuery);
 				}
 
 			}
 		}
 
-		public static DataSet GetArticulosEliminados(string module, string StrConnection)
+		public static DataSet GetArticulosEliminados(string module)
 		{
 			DataSet ds = new DataSet();
 			string strQuery;
@@ -169,7 +169,7 @@ namespace SMarketPlaceUtils
 				strQuery += "and dtRegistro = (select max(dtRegistro) from [dbo].[LogProductosMP] where tipoMP = '";
 				strQuery += module.ToString() + "') ";
 				strQuery += "order by intArticuloid asc ";
-				ds = SMPSQL.ExecuteDataSet(strQuery, StrConnection);
+				ds = SMPSQL.ExecuteDataSet(strQuery);
 			}
 			else
 			{

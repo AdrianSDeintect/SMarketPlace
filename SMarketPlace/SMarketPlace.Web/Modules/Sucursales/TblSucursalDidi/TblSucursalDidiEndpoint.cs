@@ -101,7 +101,7 @@ public class TblSucursalDidiEndpoint : ServiceEndpoint
         if (worksheet.Dimension.End.Row >= 2)
         {
 
-            ProcesosDB.ProcesoBarridoYLogSucursales("TBLSucursalDidi", "Didi", Convert.ToString(((Serenity.Data.WrappedConnection)((Serenity.Data.UnitOfWork)uow).Connection).ConnectionString));
+            ProcesosDB.ProcesoBarridoYLogSucursales("TBLSucursalDidi", "Didi");
         }
         for (var row = 2; row <= worksheet.Dimension.End.Row; row++)
         {
@@ -185,5 +185,23 @@ public class TblSucursalDidiEndpoint : ServiceEndpoint
 
 
         return lst;
+    }
+
+    public class DeleteMultiRequest : ServiceRequest
+    {
+        public List<string> Ids { get; set; }
+    }
+
+    [HttpPost, AuthorizeDelete(typeof(MyRow))]
+    public ServiceResponse DeleteMulti(IUnitOfWork uow, DeleteMultiRequest request, [FromServices] ITblSucursalDidiDeleteHandler handler)
+    {
+        request.Ids.ForEach(v =>
+        {
+            handler.Delete(uow, new DeleteRequest() { EntityId = v });
+
+            //return handler.Delete(uow, request);
+        });
+
+        return new ServiceResponse();
     }
 }

@@ -103,8 +103,8 @@ public class TblproductosUberEndpoint : ServiceEndpoint
         columnNameCol.Add(1);
         if (worksheet.Dimension.End.Row >= 2)
         {
-            ProcesosDB.ProcesoBarridoYLogProductos("tblproductosUber", "Uber", StrConnectionAct);
-            DataSet dsArtEli = ProcesosDB.GetArticulosEliminados("Uber", StrConnectionAct);
+            ProcesosDB.ProcesoBarridoYLogProductos("tblproductosUber", "Uber");
+            DataSet dsArtEli = ProcesosDB.GetArticulosEliminados("Uber");
             DataTable dtArtEli = dsArtEli.Tables[0];
             idsEliminados = (from row in dtArtEli.AsEnumerable() select Convert.ToInt32(row["intArticuloid"])).ToList();
         }
@@ -171,7 +171,7 @@ public class TblproductosUberEndpoint : ServiceEndpoint
 
         foreach (var ids in diff)
         {
-            ProcesosDB.LogBorradoArticulos(Convert.ToInt32(ids), "Uber", StrConnectionAct);
+            ProcesosDB.LogBorradoArticulos(Convert.ToInt32(ids), "Uber");
         }
 
         return response;
@@ -199,7 +199,7 @@ public class TblproductosUberEndpoint : ServiceEndpoint
     {
         request.Ids.ForEach(v =>
         {
-            ProcesosDB.LogBorradoArticulos(Convert.ToInt32(v), "Uber", Convert.ToString(((Serenity.Data.WrappedConnection)((Serenity.Data.UnitOfWork)uow).Connection).ConnectionString));
+            ProcesosDB.LogBorradoArticulos(Convert.ToInt32(v), "Uber");
             handler.Delete(uow, new DeleteRequest() { EntityId = v });
         });
 

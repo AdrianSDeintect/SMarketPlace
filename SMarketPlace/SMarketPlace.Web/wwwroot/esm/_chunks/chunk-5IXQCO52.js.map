@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["external-global:@serenity-is/extensions", "../../../Modules/ServerTypes/Web/Modules.ImportExcel.ImportExcelForm.ts"],
-  "sourcesContent": ["module.exports = Serenity.Extensions;", "\uFEFFimport { ImageUploadEditor, PrefixedContext } from \"@serenity-is/corelib\";\r\nimport { initFormType } from \"@serenity-is/corelib/q\";\r\n\r\nexport interface ImportExcelForm {\r\n    FileName: ImageUploadEditor;\r\n}\r\n\r\nexport class ImportExcelForm extends PrefixedContext {\r\n    static formKey = 'Modules.ImportExcel';\r\n    private static init: boolean;\r\n\r\n    constructor(prefix: string) {\r\n        super(prefix);\r\n\r\n        if (!ImportExcelForm.init)  {\r\n            ImportExcelForm.init = true;\r\n\r\n            var w0 = ImageUploadEditor;\r\n\r\n            initFormType(ImportExcelForm, [\r\n                'FileName', w0\r\n            ]);\r\n        }\r\n    }\r\n}"],
-  "mappings": "oEAAA,IAAAA,EAAAC,EAAA,CAAAC,EAAAC,IAAA,CAAAA,EAAO,QAAU,SAAS,aCAzB,IAAAC,EAAmD,SACpDC,EAA6B,SAMtB,IAAMC,EAAN,cAA8B,iBAAgB,CAIjD,YAAYC,EAAgB,CAGxB,GAFA,MAAMA,CAAM,EAER,CAACD,EAAgB,KAAO,CACxBA,EAAgB,KAAO,GAEvB,IAAIE,EAAK,uBAET,gBAAaF,EAAiB,CAC1B,WAAYE,CAChB,CAAC,CACL,CACJ,CACJ,EAjBaC,EAANH,EAAMI,EAAAD,EAAA,mBAAAA,EACF,QAAU",
-  "names": ["require_extensions", "__commonJSMin", "exports", "module", "import_corelib", "import_q", "_ImportExcelForm", "prefix", "w0", "ImportExcelForm", "__name"]
-}

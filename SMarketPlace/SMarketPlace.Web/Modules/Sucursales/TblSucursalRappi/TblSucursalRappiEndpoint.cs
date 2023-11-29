@@ -100,7 +100,7 @@ public class TblSucursalRappiEndpoint : ServiceEndpoint
         columnNameCol.Add(1);
         if (worksheet.Dimension.End.Row >= 2)
         {
-            ProcesosDB.ProcesoBarridoYLogSucursales("TBLSucursalRappi", "Rappi", Convert.ToString(((Serenity.Data.WrappedConnection)((Serenity.Data.UnitOfWork)uow).Connection).ConnectionString));
+            ProcesosDB.ProcesoBarridoYLogSucursales("TBLSucursalRappi", "Rappi");
         }
         for (var row = 2; row <= worksheet.Dimension.End.Row; row++)
         {

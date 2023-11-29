@@ -12,6 +12,7 @@ using Serenity.Extensions;
 using Serenity;
 using System.Collections.Generic;
 using SMarketPlaceUtils;
+using System.Linq;
 
 namespace SMarketPlace.Productos.Endpoints;
 
@@ -67,6 +68,9 @@ public class TblproductosDidiEndpoint : ServiceEndpoint
     [HttpPost]
     public ExcelImportResponse ExcelImport(IUnitOfWork uow, ExcelImportRequest request, [FromServices] IUploadStorage uploadStorage, [FromServices] ITblproductosDidiSaveHandler handler)
     {
+        List<int> lstExcel = new List<int>();
+        List<int> idsEliminados = new List<int>();
+        string StrConnectionAct = Convert.ToString(((Serenity.Data.WrappedConnection)((Serenity.Data.UnitOfWork)uow).Connection).ConnectionString);
         if (request == null) throw new ArgumentNullException(nameof(request));
         if (string.IsNullOrWhiteSpace(request.FileName)) throw new ArgumentNullException(nameof(request.FileName));
         if (uploadStorage is null) throw new ArgumentNullException(nameof(uploadStorage));
@@ -94,11 +98,16 @@ public class TblproductosDidiEndpoint : ServiceEndpoint
             wsHeaders.Add(cell.Value.ToString());
         }
         List<int> columnNameCol = new List<int>();
+
         columnNameCol.Add(1);
         if (worksheet.Dimension.End.Row >= 2)
         {
-            ProcesosDB.ProcesoBarridoYLogProductos("tblproductosDidi", "Didi", Convert.ToString(((Serenity.Data.WrappedConnection)((Serenity.Data.UnitOfWork)uow).Connection).ConnectionString));            
+            ProcesosDB.ProcesoBarridoYLogProductos("tblproductosDidi", "Didi");
+            DataSet dsArtEli = ProcesosDB.GetArticulosEliminados("Didi");
+            DataTable dtArtEli = dsArtEli.Tables[0];
+            idsEliminados = (from row in dtArtEli.AsEnumerable() select Convert.ToInt32(row["intArticuloid"])).ToList();
         }
+
         for (var row = 2; row <= worksheet.Dimension.End.Row; row++)
         {
             try
@@ -106,6 +115,7 @@ public class TblproductosDidiEndpoint : ServiceEndpoint
                 var Exits = true;
                 var lineIDCol = columnNameCol[0];
                 var pruductId = Convert.ToInt32(worksheet.Cells[row, lineIDCol].Value ?? "");
+                lstExcel.Add(pruductId);
                 var pName = Convert.ToString(pruductId);
 
                 if (pName.IsTrimmedEmpty())
@@ -129,12 +139,6 @@ public class TblproductosDidiEndpoint : ServiceEndpoint
                     product.TrackWithChecks = false;
                 }
 
-                var cCol = columnNameCol[0]; //row on Excel Sheet with joined field;                    
-                var cID = TblproductosDidiRow.Fields.IntArticuloid; //id on secondary table
-                                                                    //var cName = SupplierRow.Fields.CompanyName; //field being checked on secondary table
-                var catName = Convert.ToString(worksheet.Cells[row, cCol].Value ?? "");//value from Excel in specific column  where second table joins.
-                var mainID = product.IntArticuloid; //int designation on current row
-
                 if (Exits == false)
                 {
 
@@ -155,17 +159,19 @@ public class TblproductosDidiEndpoint : ServiceEndpoint
 
                     response.Updated = response.Updated + 1;
                 }
-                cCol = 0;
-                cID = null;
-                catName = null;
-                mainID = null;
-
 
             }
             catch (Exception ex)
             {
                 response.ErrorList.Add("Exception on Row " + row + ": " + ex.Message);
             }
+        }
+
+        var diff = idsEliminados.Except(lstExcel);
+
+        foreach (var ids in diff)
+        {
+            ProcesosDB.LogBorradoArticulos(Convert.ToInt32(ids), "Didi");
         }
 
         return response;
@@ -181,6 +187,23 @@ public class TblproductosDidiEndpoint : ServiceEndpoint
 
 
         return lst;
+    }
+
+    public class DeleteMultiRequest : ServiceRequest
+    {
+        public List<int> Ids { get; set; }
+    }
+
+    [HttpPost, AuthorizeDelete(typeof(MyRow))]
+    public ServiceResponse DeleteMulti(IUnitOfWork uow, DeleteMultiRequest request, [FromServices] ITblproductosDidiDeleteHandler handler)
+    {
+        request.Ids.ForEach(v =>
+        {
+            ProcesosDB.LogBorradoArticulos(Convert.ToInt32(v), "Didi");
+            handler.Delete(uow, new DeleteRequest() { EntityId = v });
+        });
+
+        return new ServiceResponse();
     }
 
 }

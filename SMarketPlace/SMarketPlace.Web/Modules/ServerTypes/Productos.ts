@@ -1,5 +1,6 @@
 ﻿export * from "./Productos/DeleteMultiRequest"
 export * from "./Productos/DeleteMultiRequest"
+export * from "./Productos/DeleteMultiRequest"
 export * from "./Productos/PermissionKeys"
 export * from "./Productos/TblArticuloColumns"
 export * from "./Productos/TblArticuloForm"

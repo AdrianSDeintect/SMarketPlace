@@ -1,2 +1,0 @@
-import{a as r,b as m,c as o,f as d,g as f}from"./chunk-FEDAVPE7.js";var x=m((l,a)=>{a.exports=Serenity.Extensions});var i=o(f(),1),n=o(d(),1);var e=class extends i.PrefixedContext{constructor(s){if(super(s),!e.init){e.init=!0;var p=i.ImageUploadEditor;(0,n.initFormType)(e,["FileName",p])}}},t=e;r(t,"ImportExcelForm"),t.formKey="Modules.ImportExcel";export{t as a,x as b};
-//# sourceMappingURL=chunk-F5ADXQSZ.js.map
